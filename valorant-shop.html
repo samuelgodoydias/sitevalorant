@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexStore — Contas Valorant</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --turq: #00C9B1;
+  --turq-dark: #009E8C;
+  --turq-glow: rgba(0,201,177,0.18);
+  --red: #E8293A;
+  --red-dark: #b81f2e;
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #181818;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f0f0;
+  --muted: #888;
+  --card-bg: #131313;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(10,10,10,0.95);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  height:64px; display:flex; align-items:center;
+}
+.nav-inner { max-width:1200px; margin:0 auto; width:100%; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700; letter-spacing:2px; color:#fff; text-decoration:none; }
+.logo span { color:var(--turq); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a { text-decoration:none; color:var(--muted); font-size:14px; font-weight:500; transition:color .2s; }
+.nav-links a:hover { color:var(--turq); }
+.btn-nav {
+  background:var(--turq); color:#000; border:none; padding:8px 20px;
+  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px;
+  letter-spacing:1px; cursor:pointer; clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px);
+  transition:background .2s;
+}
+.btn-nav:hover { background:var(--turq-dark); }
+
+/* HERO */
+.hero {
+  padding:120px 24px 80px;
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,201,177,0.1); border:1px solid rgba(0,201,177,0.3);
+  padding:6px 14px; border-radius:2px; margin-bottom:20px;
+}
+.hero-badge span { font-size:12px; font-weight:600; letter-spacing:2px; color:var(--turq); text-transform:uppercase; }
+.dot-pulse { width:7px; height:7px; border-radius:50%; background:var(--turq); animation:pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+h1 { font-family:'Rajdhani',sans-serif; font-size:58px; font-weight:700; line-height:1.05; letter-spacing:1px; margin-bottom:20px; }
+h1 em { color:var(--turq); font-style:normal; }
+h1 strong { color:var(--red); }
+.hero p { font-size:16px; color:var(--muted); line-height:1.7; margin-bottom:32px; max-width:420px; }
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+.btn-primary {
+  background:var(--turq); color:#000; border:none;
+  padding:14px 32px; font-family:'Rajdhani',sans-serif; font-weight:700;
+  font-size:16px; letter-spacing:2px; cursor:pointer;
+  clip-path:polygon(10px 0%,100% 0%,100% calc(100% - 10px),calc(100% - 10px) 100%,0% 100%,0% 10px);
+  text-transform:uppercase; text-decoration:none; display:inline-block;
+  transition:background .2s, transform .15s;
+}
+.btn-primary:hover { background:var(--turq-dark); transform:translateY(-2px); }
+.btn-secondary {
+  background:transparent; color:var(--text); border:1px solid var(--border);
+  padding:14px 32px; font-family:'Rajdhani',sans-serif; font-weight:600;
+  font-size:16px; letter-spacing:2px; cursor:pointer; text-transform:uppercase;
+  text-decoration:none; display:inline-block; transition:border-color .2s, color .2s;
+}
+.btn-secondary:hover { border-color:var(--turq); color:var(--turq); }
+
+/* HERO VISUAL */
+.hero-visual { position:relative; }
+.hero-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  border-top:2px solid var(--turq); padding:28px;
+  position:relative; overflow:hidden;
+}
+.hero-card::before {
+  content:''; position:absolute; top:0; right:0;
+  width:180px; height:180px;
+  background:radial-gradient(circle, rgba(0,201,177,0.08) 0%, transparent 70%);
+}
+.rank-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(232,41,58,0.15); border:1px solid rgba(232,41,58,0.3);
+  padding:5px 12px; border-radius:2px; margin-bottom:16px;
+}
+.rank-badge span { font-size:13px; font-weight:600; color:var(--red); letter-spacing:1px; }
+.card-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; margin-bottom:8px; }
+.price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:20px; }
+.price-main { font-family:'Rajdhani',sans-serif; font-size:38px; font-weight:700; color:var(--turq); }
+.price-sub { font-size:13px; color:var(--muted); }
+.card-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.stat { background:var(--bg3); padding:12px 14px; border:1px solid var(--border); }
+.stat-label { font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.stat-val { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:#fff; }
+.features-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.features-list li { display:flex; align-items:center; gap:10px; font-size:14px; color:var(--muted); }
+.features-list li::before { content:''; width:6px; height:6px; background:var(--turq); flex-shrink:0; }
+.btn-buy {
+  width:100%; background:var(--red); color:#fff; border:none;
+  padding:14px; font-family:'Rajdhani',sans-serif; font-weight:700;
+  font-size:17px; letter-spacing:2px; cursor:pointer; text-transform:uppercase;
+  clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px);
+  transition:background .2s;
+}
+.btn-buy:hover { background:var(--red-dark); }
+
+/* STATS BAR */
+.stats-bar {
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  background:var(--bg2); padding:24px;
+}
+.stats-bar-inner {
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px; text-align:center;
+}
+.stat-item-num { font-family:'Rajdhani',sans-serif; font-size:32px; font-weight:700; color:var(--turq); }
+.stat-item-lbl { font-size:13px; color:var(--muted); margin-top:2px; }
+
+/* SECTION */
+section { padding:80px 24px; max-width:1200px; margin:0 auto; }
+.section-header { margin-bottom:40px; }
+.section-tag {
+  font-size:12px; font-weight:600; letter-spacing:3px; color:var(--turq);
+  text-transform:uppercase; margin-bottom:10px; display:block;
+}
+.section-title { font-family:'Rajdhani',sans-serif; font-size:38px; font-weight:700; }
+.section-title span { color:var(--red); }
+
+/* ACCOUNTS GRID */
+.accounts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.account-card {
+  background:var(--card-bg); border:1px solid var(--border);
+  overflow:hidden; transition:border-color .2s, transform .2s;
+  position:relative;
+}
+.account-card:hover { border-color:var(--turq); transform:translateY(-4px); }
+.account-card.featured { border-color:rgba(0,201,177,0.4); }
+.account-card.featured::after {
+  content:'DESTAQUE'; position:absolute; top:0; right:0;
+  background:var(--turq); color:#000; font-family:'Rajdhani',sans-serif;
+  font-size:11px; font-weight:700; letter-spacing:2px; padding:4px 10px;
+}
+.card-img { width:100%; height:160px; object-fit:cover; display:block; background:var(--bg3); position:relative; overflow:hidden; }
+.card-img-placeholder {
+  width:100%; height:160px; background:linear-gradient(135deg,#0f2420,#1a1a1a);
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+.card-img-placeholder::after {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(0,201,177,0.03) 20px,rgba(0,201,177,0.03) 21px);
+}
+.rank-icon { font-family:'Rajdhani',sans-serif; font-size:40px; font-weight:700; color:rgba(0,201,177,0.4); z-index:1; }
+.card-body { padding:18px; }
+.card-rank-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.card-rank { font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; }
+.card-rank.gold { color:#F0C040; }
+.card-rank.plat { color:#9ECFFF; }
+.card-rank.diamond { color:#B87FE8; }
+.card-rank.silver { color:#C0C0C0; }
+.card-name { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; margin-bottom:12px; }
+.card-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.chip {
+  font-size:11px; padding:3px 9px; border:1px solid var(--border);
+  color:var(--muted); letter-spacing:.5px;
+}
+.chip.turq { border-color:rgba(0,201,177,0.3); color:var(--turq); }
+.card-price-row { display:flex; align-items:center; justify-content:space-between; }
+.card-price { font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700; color:var(--turq); }
+.btn-card {
+  background:var(--red); color:#fff; border:none;
+  padding:8px 16px; font-family:'Rajdhani',sans-serif; font-weight:700;
+  font-size:13px; letter-spacing:1px; cursor:pointer; text-transform:uppercase;
+  transition:background .2s;
+}
+.btn-card:hover { background:var(--red-dark); }
+
+/* SKINS SECTION */
+.skins-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; }
+.skin-card {
+  background:var(--bg3); border:1px solid var(--border);
+  padding:14px; text-align:center; transition:border-color .2s;
+  position:relative;
+}
+.skin-card:hover { border-color:rgba(0,201,177,0.4); }
+.skin-img { width:72px; height:72px; object-fit:contain; margin:0 auto 10px; display:block; }
+.skin-name { font-size:12px; color:var(--muted); line-height:1.4; }
+.skin-tier {
+  position:absolute; top:6px; right:6px;
+  font-size:9px; font-weight:700; letter-spacing:1px; padding:2px 6px;
+}
+.skin-tier.exclusive { background:rgba(240,192,64,0.15); color:#F0C040; }
+.skin-tier.ultra { background:rgba(232,41,58,0.15); color:var(--red); }
+.skin-tier.premium { background:rgba(0,201,177,0.12); color:var(--turq); }
+
+/* HOW IT WORKS */
+.how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px; }
+.how-card {
+  background:var(--bg2); border:1px solid var(--border); padding:28px;
+  border-top:2px solid var(--turq); position:relative;
+}
+.how-num {
+  font-family:'Rajdhani',sans-serif; font-size:52px; font-weight:700;
+  color:rgba(0,201,177,0.1); position:absolute; top:12px; right:16px;
+}
+.how-icon {
+  width:42px; height:42px; background:rgba(0,201,177,0.1);
+  display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+}
+.how-icon svg { width:20px; height:20px; stroke:var(--turq); fill:none; stroke-width:2; }
+.how-card h3 { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; margin-bottom:8px; }
+.how-card p { font-size:14px; color:var(--muted); line-height:1.6; }
+
+/* REVIEWS */
+.reviews-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.review-card {
+  background:var(--card-bg); border:1px solid var(--border); padding:22px;
+}
+.review-stars { color:var(--turq); font-size:16px; margin-bottom:10px; letter-spacing:2px; }
+.review-text { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:14px; }
+.review-author { display:flex; align-items:center; gap:10px; }
+.review-avatar {
+  width:36px; height:36px; border-radius:50%;
+  background:var(--turq); display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; color:#000; flex-shrink:0;
+}
+.review-name { font-size:14px; font-weight:600; }
+.review-date { font-size:12px; color:var(--muted); }
+
+/* GUARANTEES */
+.guarantees { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-top:20px; }
+.guarantee {
+  background:var(--bg2); border:1px solid var(--border); padding:22px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+}
+.guarantee-icon {
+  width:38px; height:38px; background:rgba(232,41,58,0.12);
+  display:flex; align-items:center; justify-content:center;
+}
+.guarantee-icon svg { width:18px; height:18px; stroke:var(--red); fill:none; stroke-width:2; }
+.guarantee h4 { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; }
+.guarantee p { font-size:13px; color:var(--muted); line-height:1.5; }
+
+/* FOOTER */
+footer {
+  border-top:1px solid var(--border); background:var(--bg2);
+  padding:50px 24px 30px;
+}
+.footer-inner { max-width:1200px; margin:0 auto; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+.footer-logo { font-family:'Rajdhani',sans-serif; font-size:24px; font-weight:700; letter-spacing:2px; margin-bottom:12px; }
+.footer-logo span { color:var(--turq); }
+.footer-desc { font-size:14px; color:var(--muted); line-height:1.7; max-width:300px; }
+.footer-col h4 { font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; letter-spacing:1px; margin-bottom:16px; color:var(--text); }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-col ul li a { font-size:14px; color:var(--muted); text-decoration:none; transition:color .2s; }
+.footer-col ul li a:hover { color:var(--turq); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.footer-bottom p { font-size:13px; color:var(--muted); }
+.footer-bottom span { color:var(--turq); }
+
+/* TICKER */
+.ticker-wrap { background:var(--turq); overflow:hidden; padding:8px 0; }
+.ticker-inner { display:flex; gap:0; white-space:nowrap; animation:ticker 25s linear infinite; }
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ticker-item { font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:#000; padding:0 40px; text-transform:uppercase; }
+.ticker-sep { color:rgba(0,0,0,0.3); }
+
+/* NOTICE BANNER */
+.notice {
+  background:rgba(0,201,177,0.06); border:1px solid rgba(0,201,177,0.2);
+  padding:12px 20px; display:flex; align-items:center; gap:12px;
+  margin-bottom:30px;
+}
+.notice-dot { width:8px; height:8px; background:var(--turq); flex-shrink:0; animation:pulse 1.5s infinite; }
+.notice p { font-size:13px; color:var(--turq); }
+
+@media(max-width:768px) {
+  .hero { grid-template-columns:1fr; padding-top:90px; }
+  h1 { font-size:40px; }
+  .footer-top { grid-template-columns:1fr; }
+  .stats-bar-inner { grid-template-columns:1fr 1fr; }
+  .nav-links { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Entrega Instantânea</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Full Acesso Garantido</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Suporte 24 Horas</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Garantia de 30 Dias</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Pagamento Seguro</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">+500 Contas Vendidas</span><span class="ticker-item ticker-sep">///</span>
+    <!-- duplicado para loop contínuo -->
+    <span class="ticker-item">Entrega Instantânea</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Full Acesso Garantido</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Suporte 24 Horas</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Garantia de 30 Dias</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">Pagamento Seguro</span><span class="ticker-item ticker-sep">///</span>
+    <span class="ticker-item">+500 Contas Vendidas</span><span class="ticker-item ticker-sep">///</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">NEX<span>STORE</span></a>
+    <div class="nav-links">
+      <a href="#contas">Contas</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <button class="btn-nav">COMPRAR AGORA</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1200px;margin:0 auto;">
+  <div class="hero">
+    <div>
+      <div class="hero-badge">
+        <div class="dot-pulse"></div>
+        <span>Contas disponíveis agora</span>
+      </div>
+      <h1>CONTAS<br><em>VALORANT</em><br><strong>FULL ACESSO</strong></h1>
+      <p>Skins raras, rank alto e entrega imediata. Todas as contas com acesso completo — troque email, senha e domine o jogo.</p>
+      <div class="hero-btns">
+        <a href="#contas" class="btn-primary">Ver Contas</a>
+        <a href="#como-funciona" class="btn-secondary">Como Funciona</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="rank-badge"><span>OFERTA DO DIA</span></div>
+        <div class="card-title">Conta Ouro II · 46 Skins</div>
+        <div class="price-row">
+          <div class="price-main">R$ 120,00</div>
+          <div class="price-sub">entrega em minutos</div>
+        </div>
+        <div class="card-stats">
+          <div class="stat"><div class="stat-label">Rank</div><div class="stat-val">Gold II</div></div>
+          <div class="stat"><div class="stat-label">Nível</div><div class="stat-val">154</div></div>
+          <div class="stat"><div class="stat-label">Skins</div><div class="stat-val">46</div></div>
+          <div class="stat"><div class="stat-label">Região</div><div class="stat-val">Brasil</div></div>
+        </div>
+        <ul class="features-list">
+          <li>Conta full acesso — email e senha alteráveis</li>
+          <li>Skins premium: Vandal Kuronami, RGX 11z Pro…</li>
+          <li>Sem restrições · Conta Brasil</li>
+          <li>Entrega por e-mail em até 5 minutos</li>
+        </ul>
+        <button class="btn-buy">COMPRAR AGORA — R$ 120,00</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div>
+      <div class="stat-item-num">+500</div>
+      <div class="stat-item-lbl">Contas vendidas</div>
+    </div>
+    <div>
+      <div class="stat-item-num">4.9★</div>
+      <div class="stat-item-lbl">Avaliação média</div>
+    </div>
+    <div>
+      <div class="stat-item-num">24h</div>
+      <div class="stat-item-lbl">Suporte disponível</div>
+    </div>
+    <div>
+      <div class="stat-item-num">100%</div>
+      <div class="stat-item-lbl">Full Acesso garantido</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTAS -->
+<section id="contas">
+  <div class="section-header">
+    <span class="section-tag">// estoque disponível</span>
+    <h2 class="section-title">CONTAS EM <span>DESTAQUE</span></h2>
+  </div>
+  <div class="notice">
+    <div class="notice-dot"></div>
+    <p>Estoque limitado — contas são entregues após confirmação do pagamento.</p>
+  </div>
+  <div class="accounts-grid">
+
+    <div class="account-card featured">
+      <div class="card-img-placeholder"><div class="rank-icon">G2</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank gold">Gold II</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 154</div>
+        </div>
+        <div class="card-name">Conta Gold II · 46 Skins</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">46 Skins</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 120</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-card">
+      <div class="card-img-placeholder"><div class="rank-icon">P1</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank plat">Platinum I</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 210</div>
+        </div>
+        <div class="card-name">Conta Platinum · 30 Skins</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">30 Skins</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 180</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-card">
+      <div class="card-img-placeholder"><div class="rank-icon">D3</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank diamond">Diamond III</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 320</div>
+        </div>
+        <div class="card-name">Conta Diamond · 60 Skins</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">60 Skins</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 350</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-card">
+      <div class="card-img-placeholder"><div class="rank-icon">S3</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank silver">Silver III</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 80</div>
+        </div>
+        <div class="card-name">Conta Silver · Starter Pack</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">15 Skins</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 75</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-card">
+      <div class="card-img-placeholder"><div class="rank-icon">P3</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank plat">Platinum III</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 270</div>
+        </div>
+        <div class="card-name">Conta Plat · Skins Raras</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">Champions 2024</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 240</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="account-card">
+      <div class="card-img-placeholder"><div class="rank-icon">G3</div></div>
+      <div class="card-body">
+        <div class="card-rank-row">
+          <div class="card-rank gold">Gold III</div>
+          <div style="font-size:12px;color:var(--muted);">Nível 190</div>
+        </div>
+        <div class="card-name">Conta Gold · RGX Collection</div>
+        <div class="card-meta">
+          <span class="chip turq">Full Acesso</span>
+          <span class="chip">Brasil</span>
+          <span class="chip">RGX 11z Pro</span>
+        </div>
+        <div class="card-price-row">
+          <div class="card-price">R$ 160</div>
+          <button class="btn-card">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKINS EM DESTAQUE -->
+<section>
+  <div class="section-header">
+    <span class="section-tag">// itens inclusos</span>
+    <h2 class="section-title">SKINS EM <span>DESTAQUE</span></h2>
+  </div>
+  <div class="skins-grid">
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/bbd3a52f-411e-3475-a6aa-ea88b54de53c/displayicon.png" alt="Vandal Sobrecarga" onerror="this.style.display='none'">
+      <div class="skin-name">Vandal Sobrecarga</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/d8d5d7a1-4d81-8560-54bc-0692ab40f69b/displayicon.png" alt="Vandal Kuronami" onerror="this.style.display='none'">
+      <div class="skin-name">Vandal Kuronami</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/15cc1aab-432f-34d8-e0e8-d2925d54324b/displayicon.png" alt="Vandal Champions 2025" onerror="this.style.display='none'">
+      <div class="skin-name">Vandal Champions 2025</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/91130713-44e6-8436-d34c-e3badaf241b7/displayicon.png" alt="Karambit RGX 11z Pro" onerror="this.style.display='none'">
+      <div class="skin-name">Karambit RGX 11z Pro</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier ultra">Ultra</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/7581e975-418f-fe4f-e3b0-08a3000e9a8d/displayicon.png" alt="Phantom ORA" onerror="this.style.display='none'">
+      <div class="skin-name">Phantom ORA por OneTap</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/cc1da8cd-452f-a007-0bf8-b68a471c3a6e/displayicon.png" alt="Phantom Champions 2024" onerror="this.style.display='none'">
+      <div class="skin-name">Phantom Champions 2024</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier premium">Premium</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/437307c6-424c-6a48-9738-949b91166353/displayicon.png" alt="Vandal Lúgubre" onerror="this.style.display='none'">
+      <div class="skin-name">Vandal Lúgubre</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier exclusive">Exclusive</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/fdeb2877-4030-e396-f0cb-998868362c12/displayicon.png" alt="Outlaw RGX 11z Pro" onerror="this.style.display='none'">
+      <div class="skin-name">Outlaw RGX 11z Pro</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier ultra">Ultra</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/0221b120-444b-6d1b-fc50-e4a98e470eb2/displayicon.png" alt="Judge Ancifogo" onerror="this.style.display='none'">
+      <div class="skin-name">Judge Ancifogo</div>
+    </div>
+    <div class="skin-card">
+      <span class="skin-tier premium">Premium</span>
+      <img class="skin-img" src="https://media.valorant-api.com/weaponskins/917ca6e8-403e-3691-78d9-a8aa6118385f/displayicon.png" alt="Vandal Imperium" onerror="this.style.display='none'">
+      <div class="skin-name">Vandal Imperium</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona" style="background:var(--bg2);max-width:100%;padding:80px 24px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header">
+      <span class="section-tag">// processo simples</span>
+      <h2 class="section-title">COMO <span>FUNCIONA</span></h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <h3>Escolha a conta</h3>
+        <p>Navegue pelo catálogo e escolha a conta com o rank e skins que você quer.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <h3>Realize o pagamento</h3>
+        <p>Pagamento via Pix, cartão ou boleto — 100% seguro e processado na hora.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+        </div>
+        <h3>Receba por e-mail</h3>
+        <p>Os dados da conta chegam no seu e-mail em até 5 minutos após confirmação.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Troque tudo e jogue</h3>
+        <p>Altere email e senha imediatamente — a conta é totalmente sua com garantia de 30 dias.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVALIAÇÕES -->
+<section id="avaliacoes">
+  <div class="section-header">
+    <span class="section-tag">// clientes reais</span>
+    <h2 class="section-title">O QUE DIZEM <span>SOBRE NÓS</span></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Comprei a conta Gold II e chegou em menos de 3 minutos. Já alterei email e senha sem nenhum problema. Muito bom!</p>
+      <div class="review-author">
+        <div class="review-avatar">LM</div>
+        <div><div class="review-name">Lucas M.</div><div class="review-date">há 2 dias</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Loja top, já é a segunda vez que compro. Conta veio exatamente como descrito, com todas as skins. Recomendo!</p>
+      <div class="review-author">
+        <div class="review-avatar">AC</div>
+        <div><div class="review-name">Ana C.</div><div class="review-date">há 5 dias</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Suporte atendeu rápido quando tive dúvida. Conta Platinum com mais de 30 skins, entrega instantânea. Vale cada centavo.</p>
+      <div class="review-author">
+        <div class="review-avatar">RF</div>
+        <div><div class="review-name">Rafael F.</div><div class="review-date">há 1 semana</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIAS -->
+<section style="background:var(--bg2);max-width:100%;padding:80px 24px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header">
+      <span class="section-tag">// compre com segurança</span>
+      <h2 class="section-title">SUAS <span>GARANTIAS</span></h2>
+    </div>
+    <div class="guarantees">
+      <div class="guarantee">
+        <div class="guarantee-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4>Garantia de 30 Dias</h4>
+        <p>Qualquer problema com o acesso nos primeiros 30 dias, resolvemos ou devolvemos.</p>
+      </div>
+      <div class="guarantee">
+        <div class="guarantee-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <h4>Pagamento Seguro</h4>
+        <p>Pix, cartão e boleto — todos os pagamentos são processados com criptografia.</p>
+      </div>
+      <div class="guarantee">
+        <div class="guarantee-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+        </div>
+        <h4>Entrega Instantânea</h4>
+        <p>Dados da conta por e-mail em até 5 minutos após confirmação do pagamento.</p>
+      </div>
+      <div class="guarantee">
+        <div class="guarantee-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        </div>
+        <h4>Suporte 24 Horas</h4>
+        <p>Time disponível a qualquer hora pelo WhatsApp e Discord para te ajudar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">NEX<span>STORE</span></div>
+        <p class="footer-desc">A melhor loja de contas Valorant com entrega imediata, suporte eficiente e garantia real.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#contas">Contas Valorant</a></li>
+          <li><a href="#como-funciona">Como Comprar</a></li>
+          <li><a href="#avaliacoes">Avaliações</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <span>NexStore</span>. Todos os direitos reservados.</p>
+      <p style="font-size:12px;color:var(--muted);">NexStore não é afiliada à Riot Games.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
